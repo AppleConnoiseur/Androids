@@ -1,0 +1,3 @@
+D:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\TemplateProject\Assemblies\ModAssembly.dll
+D:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\TemplateProject\Source\ModAssembly\obj\Debug\ModAssembly.csprojResolveAssemblyReference.cache
+D:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\TemplateProject\Source\ModAssembly\obj\Debug\ModAssembly.dll

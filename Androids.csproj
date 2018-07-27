@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4ED7B8AD-47E8-4436-A9BF-E664B17196D7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Androids</RootNamespace>
+    <AssemblyName>Androids</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\Program Files %28x86%29\Steam\steamapps\common\RimWorld\Mods\Androids\Assemblies\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Assemblies\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AlienRace">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\AlienRace\Assemblies\AlienRace.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AI\JobDriver_FillAndroidPrinter.cs" />
+    <Compile Include="AI\JobDriver_Hibernate.cs" />
+    <Compile Include="AI\JobDriver_RechargeEnergy.cs" />
+    <Compile Include="AI\JobDriver_RechargeEnergyFromConsumable.cs" />
+    <Compile Include="AI\JobDriver_RefillFuelEnergySource.cs" />
+    <Compile Include="AI\JobGiver_GetEnergy.cs" />
+    <Compile Include="AI\JobGiver_RefillFuelEnergySource.cs" />
+    <Compile Include="AI\Properties\ExtraReportStringProperties.cs" />
+    <Compile Include="AI\Properties\PawnCrafterWorkgiverProperties.cs" />
+    <Compile Include="AI\WorkGiver_AndroidPrinter.cs" />
+    <Compile Include="AI\WorkGiver_GiveEnergySourceConsumableToPatient.cs" />
+    <Compile Include="AI\WorkGiver_PawnCrafter.cs" />
+    <Compile Include="Customization\UpgradeCommand.cs" />
+    <Compile Include="Customization\UpgradeCommand_Body.cs" />
+    <Compile Include="Customization\UpgradeCommand_Hediff.cs" />
+    <Compile Include="Customization\UpgradeCommand_Skin.cs" />
+    <Compile Include="Customization\UpgradeMaker.cs" />
+    <Compile Include="Defs\AndroidUpgradeDef.cs" />
+    <Compile Include="Defs\AndroidUpgradeGroupDef.cs" />
+    <Compile Include="Defs\DroidCraftingDef.cs" />
+    <Compile Include="Hediffs\AndroidLikeHediff.cs" />
+    <Compile Include="Hediffs\Hediff_BlackBox.cs" />
+    <Compile Include="Hediffs\Hediff_MechaniteHive.cs" />
+    <Compile Include="Hediffs\Hediff_VanometricCell.cs" />
+    <Compile Include="Logic\DroidSkill.cs" />
+    <Compile Include="Logic\IExtraDisplayStats.cs" />
+    <Compile Include="Logic\IExtraGizmos.cs" />
+    <Compile Include="ThingComp\CompProperties_EnergyTracker.cs" />
+    <Compile Include="ThingComp\CompUseEffect_SpawnCustomDroid.cs" />
+    <Compile Include="ThingComp\EnergySource_Fueled.cs" />
+    <Compile Include="ThingComp\HibernationComp.cs" />
+    <Compile Include="Things\ApparelWithGizmos.cs" />
+    <Compile Include="Things\Building_CustomDroidCrafter.cs" />
+    <Compile Include="Things\Properties\DroidRepairProperties.cs" />
+    <Compile Include="Things\Properties\DroidSpawnProperties.cs" />
+    <Compile Include="UI\AndroidCustomizationTweaks.cs" />
+    <Compile Include="UI\Gizmos\Gizmo_EnergySourceFueled.cs" />
+    <Compile Include="Utilities\ButcherUtility.cs" />
+    <Compile Include="DefOf\DamageDefOf.cs" />
+    <Compile Include="Utilities\DroidUtility.cs" />
+    <Compile Include="EffectTextures.cs" />
+    <Compile Include="Utilities\EnergyNeedUtility.cs" />
+    <Compile Include="Utilities\ExtraRendering.cs" />
+    <Compile Include="HarmonyPatches.cs" />
+    <Compile Include="DefOf\HediffDefOf.cs" />
+    <Compile Include="HediffGiver\HediffGiver_Machine.cs" />
+    <Compile Include="HediffGiver\HediffGiver_Machinelike.cs" />
+    <Compile Include="HediffGiver\HediffGiver_MachineWearAndTear.cs" />
+    <Compile Include="HediffGiver\HediffGiver_Overheat.cs" />
+    <Compile Include="Hediffs\Hediff_Percentage.cs" />
+    <Compile Include="Hediffs\Properties\MechanicalHediffProperties.cs" />
+    <Compile Include="Integration\Androids.cs" />
+    <Compile Include="Integration\AndroidsModSettings.cs" />
+    <Compile Include="DefOf\JobDefOf.cs" />
+    <Compile Include="Logic\IPawnCrafter.cs" />
+    <Compile Include="Logic\ThingOrderProcessor.cs" />
+    <Compile Include="DefOf\NeedsDefOf.cs" />
+    <Compile Include="Needs\Need_Energy.cs" />
+    <Compile Include="PostDefFixer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\FuelUtility.cs" />
+    <Compile Include="Utilities\RaceUtility.cs" />
+    <Compile Include="Utilities\ReflectionUtility.cs" />
+    <Compile Include="ThingComp\CompProperties_EnergySource.cs" />
+    <Compile Include="ThingComp\CompProperties_SpawnPawn.cs" />
+    <Compile Include="ThingComp\CompUseEffect_SpawnDroid.cs" />
+    <Compile Include="ThingComp\CompUseEffect_SpawnPawn.cs" />
+    <Compile Include="ThingComp\EnergySourceComp.cs" />
+    <Compile Include="ThingComp\EnergySource_SolarComp.cs" />
+    <Compile Include="ThingComp\EnergyTrackerComp.cs" />
+    <Compile Include="DefOf\ThingDefOf.cs" />
+    <Compile Include="Logic\ThingOrderRequest.cs" />
+    <Compile Include="Things\Building_AndroidPrinter.cs" />
+    <Compile Include="Things\Building_DroidCrafter.cs" />
+    <Compile Include="Things\Building_PawnCrafter.cs" />
+    <Compile Include="Things\Projectile_Spawner.cs" />
+    <Compile Include="Things\Properties\MechanicalPawnProperties.cs" />
+    <Compile Include="Things\Properties\PawnCrafterProperties.cs" />
+    <Compile Include="Things\Properties\SpawnerProjectileProperties.cs" />
+    <Compile Include="UI\CustomizeAndroidWindow.cs" />
+    <Compile Include="UI\Gizmos\Gizmo_PrinterPawnInfo.cs" />
+    <Compile Include="UI\Gizmos\Gizmo_TogglePrinting.cs" />
+    <Compile Include="UI\ITab_AndroidPrinter.cs" />
+    <Compile Include="UI\UIHelper.cs" />
+    <Compile Include="Workers\DeathActionWorker_Android.cs" />
+    <Compile Include="Workers\DeathActionWorker_Droid.cs" />
+    <Compile Include="Workers\Recipe_Disassemble.cs" />
+    <Compile Include="Workers\Recipe_RepairKit.cs" />
+    <Compile Include="Workers\ThoughtWorker_DroidAlways.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="StatParts\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

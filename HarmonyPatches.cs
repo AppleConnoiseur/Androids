@@ -66,7 +66,7 @@ namespace Androids
                 //Patch: PawnRenderer.RenderPawnInternal as Postfix
                 harmony.Patch(type.GetMethod("RenderPawnInternal", BindingFlags.NonPublic | BindingFlags.Instance,
                     Type.DefaultBinder, CallingConventions.Any, 
-                    new Type[] { typeof(Vector3), typeof(Quaternion), typeof(bool), typeof(Rot4), typeof(Rot4), typeof(RotDrawMode), typeof(bool), typeof(bool) }, null),
+                    new Type[] { typeof(Vector3), typeof(float), typeof(bool), typeof(Rot4), typeof(Rot4), typeof(RotDrawMode), typeof(bool), typeof(bool) }, null),
                     null, new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_PawnRenderer_RenderPawnInternal))));
             }
 
@@ -243,6 +243,16 @@ namespace Androids
                     null);
             }
 
+            {
+                //PawnGenerator
+                Type type = typeof(PawnGenerator);
+
+                harmony.Patch(
+                    AccessTools.Method(type, "TryGenerateNewPawnInternal"),
+                    new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_PawnGenerator_TryGenerateNewPawnInternal))),
+                    null);
+            }
+
             //Droid
             //Compatibility Patches
             {
@@ -372,6 +382,21 @@ namespace Androids
             }*/
 
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+        }
+
+        public static bool Patch_PawnGenerator_TryGenerateNewPawnInternal(ref Pawn __result, ref PawnGenerationRequest request, out string error)
+        {
+            error = null;
+
+            //Hijack the process if a Droid is detected.
+            if (request.KindDef.race.GetModExtension<DroidSpawnProperties>() is DroidSpawnProperties props)
+            {
+                __result = DroidUtility.MakeDroidTemplate(request.KindDef, request.Faction, request.Tile);
+                return false;
+            }
+
+            //Let original pawn generator run.
+            return true;
         }
 
         public static bool Patch_PawnUtility_HumanFilthChancePerCell(float __result, ThingDef def)
@@ -1067,7 +1092,7 @@ namespace Androids
         /// <summary>
         /// Adds glowing eyes to anything mechanical.
         /// </summary>
-        public static void Patch_PawnRenderer_RenderPawnInternal(ref PawnRenderer __instance, Vector3 rootLoc, Quaternion quat, bool renderBody, Rot4 bodyFacing, Rot4 headFacing, RotDrawMode bodyDrawType, bool portrait, bool headStump)
+        public static void Patch_PawnRenderer_RenderPawnInternal(ref PawnRenderer __instance, Vector3 rootLoc, float angle, bool renderBody, Rot4 bodyFacing, Rot4 headFacing, RotDrawMode bodyDrawType, bool portrait, bool headStump)
         {
             if(__instance != null && AndroidsModSettings.Instance.androidEyeGlow)
             {
@@ -1076,6 +1101,8 @@ namespace Androids
                 //Draw glowing eyes.                                                                                Null check galore!
                 if (pawn != null && pawn.IsAndroid() && !pawn.Dead && !headStump &&  ((!portrait && pawn?.jobs?.curDriver != null ? !pawn.jobs.curDriver.asleep : portrait) || portrait))
                 {
+                    Quaternion quat = Quaternion.AngleAxis(angle, Vector3.up);
+
                     //Get base offset.
                     Vector3 baseHeadOffset = rootLoc;
                     if (bodyFacing != Rot4.North)

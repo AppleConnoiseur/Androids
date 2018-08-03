@@ -99,7 +99,7 @@ namespace Androids
             //Apply template.
             if (def.useDroidCreator)
             {
-                pawnBeingCrafted = DroidUtility.MakeDroidTemplate(def.pawnKind.race, def.pawnKind, Faction, Map);
+                pawnBeingCrafted = DroidUtility.MakeDroidTemplate(def.pawnKind, Faction, Map.Tile);
             }
             else
             {

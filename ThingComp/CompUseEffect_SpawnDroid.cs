@@ -14,7 +14,7 @@ namespace Androids
         {
             Faction newFaction = GetFaction();
 
-            Pawn spawnPawn = DroidUtility.MakeDroidTemplate(SpawnerProps.pawnKind.race, SpawnerProps.pawnKind, newFaction, parent.Map);
+            Pawn spawnPawn = DroidUtility.MakeDroidTemplate(SpawnerProps.pawnKind, newFaction, parent.Map.Tile);
             if (spawnPawn != null)
             {
                 GenPlace.TryPlaceThing(spawnPawn, parent.Position, parent.Map, ThingPlaceMode.Near);

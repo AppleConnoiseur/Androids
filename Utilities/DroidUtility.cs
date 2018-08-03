@@ -26,10 +26,13 @@ namespace Androids
         /// <param name="faction">Faction that owns this Droid.</param>
         /// <param name="map">Map to spawn in.</param>
         /// <returns>New Pawn if successful. Null if not.</returns>
-        public static Pawn MakeDroidTemplate(ThingDef raceDef, PawnKindDef pawnKindDef, Faction faction, Map map, List<SkillRequirement> skills = null, int defaultSkillLevel = 6)
+        public static Pawn MakeDroidTemplate(PawnKindDef pawnKindDef, Faction faction, int tile, List<SkillRequirement> skills = null, int defaultSkillLevel = 6)
         {
+            Map map = Current.Game.FindMap(tile);
+            Log.Message("Map: " + map);
+
             //Manually craft a Droid Pawn.
-            Pawn pawnBeingCrafted = (Pawn)ThingMaker.MakeThing(raceDef);
+            Pawn pawnBeingCrafted = (Pawn)ThingMaker.MakeThing(pawnKindDef.race);
             if (pawnBeingCrafted == null)
                 return null;
 
@@ -51,7 +54,7 @@ namespace Androids
             //Set Story
             if (pawnBeingCrafted.RaceProps.Humanlike)
             {
-                DroidSpawnProperties spawnProperties = raceDef.GetModExtension<DroidSpawnProperties>();
+                DroidSpawnProperties spawnProperties = pawnKindDef.race.GetModExtension<DroidSpawnProperties>();
 
                 if (spawnProperties != null)
                 {
@@ -187,8 +190,8 @@ namespace Androids
 
                 if (names != null)
                 {
-                    int droidNameCount = names.Count(name => name.ToStringShort.ToLower().StartsWith(raceDef.label.ToLower()));
-                    string finalShortName = raceDef.LabelCap + " " + droidNameCount;
+                    int droidNameCount = names.Count(name => name.ToStringShort.ToLower().StartsWith(pawnKindDef.race.label.ToLower()));
+                    string finalShortName = pawnKindDef.race.LabelCap + " " + droidNameCount;
                     pawnBeingCrafted.Name = MakeDroidName(finalShortName);
                 }
                 else

@@ -447,7 +447,7 @@ namespace Androids
                     {
                         IEnumerable<Backstory> backstories = from backstory in (from backstoryPair in BackstoryDatabase.allBackstories
                                                               select backstoryPair.Value)
-                                                             where (backstory.spawnCategories.Contains(currentPawnKindDef.backstoryCategory) || backstory.spawnCategories.Contains("ChjAndroid")) && backstory.slot == BackstorySlot.Childhood
+                                                             where (backstory.spawnCategories.Any(category => currentPawnKindDef.backstoryCategories.Any(subCategory => subCategory == category)) || backstory.spawnCategories.Contains("ChjAndroid")) && backstory.slot == BackstorySlot.Childhood
                                                              select backstory;
                         FloatMenuUtility.MakeMenu<Backstory>(backstories, backstory => backstory.TitleCapFor(newAndroid.gender), (Backstory backstory) => delegate
                         {
@@ -476,7 +476,7 @@ namespace Androids
                     {
                         IEnumerable<Backstory> backstories = from backstory in (from backstoryPair in BackstoryDatabase.allBackstories
                                                                                 select backstoryPair.Value)
-                                                             where (backstory.spawnCategories.Contains(currentPawnKindDef.backstoryCategory) || backstory.spawnCategories.Contains("ChjAndroid")) && backstory.slot == BackstorySlot.Adulthood
+                                                             where (backstory.spawnCategories.Any(category => currentPawnKindDef.backstoryCategories.Any(subCategory => subCategory == category)) || backstory.spawnCategories.Contains("ChjAndroid")) && backstory.slot == BackstorySlot.Adulthood
                                                              select backstory;
                         FloatMenuUtility.MakeMenu<Backstory>(backstories, backstory => backstory.TitleCapFor(newAndroid.gender), (Backstory backstory) => delegate
                         {

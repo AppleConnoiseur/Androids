@@ -30,25 +30,35 @@ namespace Androids
             {
                 if(!alienRaceKindSearchDoneint)
                 {
-                    foreach(ThingDef_AlienRace alienDef in DefDatabase<ThingDef_AlienRace>.AllDefs)
+                    //Log.Message("AlienRaceKinds: Setting up");
+                    foreach (ThingDef_AlienRace alienDef in DefDatabase<ThingDef_AlienRace>.AllDefs)
                     {
+                        //Log.Message("AlienRaceKinds: Picking best PawnkindDef for: " + alienDef.defName);
                         //Cross reference with pawnkinds and pick the first one.
                         PawnKindDef bestKindDef = DefDatabase<PawnKindDef>.AllDefs.FirstOrDefault(def => def.race == alienDef);
-                        //if (bestKindDef != null && bestKindDef.backstoryCategory != "AndroidTiers")
+                        if (bestKindDef != null)
                         {
+                            //Log.Message("AlienRaceKinds: Found '"+ bestKindDef.defName + "' for: " + alienDef.defName);
                             alienRaceKindsint.Add(bestKindDef);
                         }
+                        /*else
+                        {
+                            Log.Message("AlienRaceKinds: Found no PawnkindDef for: " + alienDef.defName);
+                        }*/
                     }
 
+                    //Log.Message("AlienRaceKinds: Removing mechanical pawns.");
                     //Remove Droids from the list.
                     alienRaceKindsint.RemoveAll(def => def.race.HasModExtension<MechanicalPawnProperties>());
 
+                    //Log.Message("AlienRaceKinds: Removing disallowed pawns.");
                     //Look through all ThingDefs for alien races not to allow.
-                    foreach(ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
                     {
                         if(thingDef.GetModExtension<PawnCrafterProperties>() is PawnCrafterProperties properties)
                         {
-                            foreach(ThingDef raceDef in properties.disabledRaces)
+                            //Log.Message("AlienRaceKinds: Removing Pawnkinds from: " + thingDef.defName);
+                            foreach (ThingDef raceDef in properties.disabledRaces)
                             {
                                 alienRaceKindsint.RemoveAll(def => def.race == raceDef);
                             }

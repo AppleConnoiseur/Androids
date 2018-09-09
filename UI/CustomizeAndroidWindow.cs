@@ -1127,14 +1127,14 @@ namespace Androids
                         pawn.def.race.hediffGiverSets.Any(
                             setDef => setDef.hediffGivers.Any(
                                 hediffGiver => hediffGiver is HediffGiver_Birthday birthday && birthday.hediff == hediff.def && 
-                                birthday.hediff.stages.Any(
+                                (birthday.hediff.stages?.Any(
                                     stage => 
-                                    stage.capMods.Any(cap => cap.offset < 0f) ||
+                                    (stage.capMods?.Any(cap => cap.offset < 0f) ?? false) ||
                                     stage.lifeThreatening ||
                                     stage.partEfficiencyOffset < 0f ||
-                                    stage.statOffsets.Any(stat => stat.value < 0f) ||
+                                    (stage.statOffsets?.Any(stat => stat.value < 0f) ?? false) ||
                                     stage.painOffset > 0f ||
-                                    stage.painFactor > 1f))))
+                                    stage.painFactor > 1f) ?? false))))
                     {
                         //Log.Message("Bad Birthday Hediff Removed: " + hediff.LabelCap);
                         pawn.health.hediffSet.hediffs.Remove(hediff);

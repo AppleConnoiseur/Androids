@@ -352,10 +352,21 @@ namespace Androids
             {
                 Type type = typeof(Alert_Boredom);
 
-                harmony.Patch(
-                    type.GetMethod("BoredPawns", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod),
+                //For some reason this did not work.
+                /*harmony.Patch(
+                    AccessTools.Method(type, "BoredPawns"),
                     new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_BoredPawns))),
                     null);
+
+                Log.Message("Patched Alert_Boredom.BoredPawns");*/
+
+                //But this did.
+                harmony.Patch(
+                    AccessTools.Method(type, "GetReport"),
+                    new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_Boredom_GetReport))),
+                    null);
+
+                //Log.Message("Patched Alert_Boredom.BoredPawns");
             }
 
             /*{
@@ -453,10 +464,12 @@ namespace Androids
         {
             if (p.def.GetModExtension<MechanicalPawnProperties>() is MechanicalPawnProperties properties && !properties.canSocialize)
             {
+                //Log.Message("Droid: " + p.Name);
                 __result = false;
                 return false;
             }
 
+            //Log.Message("Not Droid: " + p.Name);
             return true;
         }
 
@@ -691,13 +704,25 @@ namespace Androids
             return true;
         }
 
-        public static bool CompatPatch_BoredPawns(ref Alert_Boredom __instance, ref IEnumerable<Pawn> __result)
+        public static bool CompatPatch_Boredom_GetReport(ref Alert_Boredom __instance, ref AlertReport __result)
         {
+            IEnumerable<Pawn> culprits = null;
+            CompatPatch_BoredPawns(ref culprits);
+
+            __result = AlertReport.CulpritsAre(culprits);
+            return false;
+        }
+
+        public static bool CompatPatch_BoredPawns(ref IEnumerable<Pawn> __result)
+        {
+            //Log.Message("CompatPatch_BoredPawns Alert");
+
             List<Pawn> legiblePawns = new List<Pawn>();
 
             foreach (Pawn p in PawnsFinder.AllMaps_FreeColonistsSpawned)
             {
-                if (p.needs.joy != null && p.needs.joy.CurLevelPercentage < 0.24000001f || p.GetTimeAssignment() == TimeAssignmentDefOf.Joy)
+                //Log.Message("Pawn=" + p.Label);
+                if (p.needs.joy != null && (p.needs.joy.CurLevelPercentage < 0.24000001f || p.GetTimeAssignment() == TimeAssignmentDefOf.Joy))
                 {
                     if (p.needs.joy.tolerances.BoredOfAllAvailableJoyKinds(p))
                     {
@@ -705,6 +730,15 @@ namespace Androids
                     }
                 }
             }
+
+            /*if(legiblePawns.Count > 0)
+            {
+                __result = legiblePawns;
+            }
+            else
+            {
+                __result = null;
+            }*/
 
             __result = legiblePawns;
 
@@ -854,15 +888,18 @@ namespace Androids
 
         public static bool CompatPatch_ShouldGuestKeepAttendingGathering(ref bool __result, ref Pawn p)
         {
+            //Log.Message("Guest p=" + p?.ToString() ?? "null");
             if (p.def.GetModExtension<MechanicalPawnProperties>() is MechanicalPawnProperties properties && !properties.canSocialize)
             {
+                //Log.Message("Guest (Mechanical) p=" + p.ToString());
                 __result = !p.Downed && 
                     p.health.hediffSet.BleedRateTotal <= 0f && 
                     !p.health.hediffSet.HasTendableNonInjuryNonMissingPartHediff(false) && 
-                    p.Awake() && !p.InAggroMentalState && !p.IsPrisoner;
+                    !p.InAggroMentalState && !p.IsPrisoner;
                 return false;
             }
 
+            //Log.Message("Guest NOT (Mechanical) p=" + p?.ToString() ?? "null");
             return true;
         }
 

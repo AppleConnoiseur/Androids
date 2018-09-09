@@ -29,7 +29,7 @@ namespace Androids
         public static Pawn MakeDroidTemplate(PawnKindDef pawnKindDef, Faction faction, int tile, List<SkillRequirement> skills = null, int defaultSkillLevel = 6)
         {
             Map map = Current.Game.FindMap(tile);
-            Log.Message("Map: " + map);
+            //Log.Message("Map: " + map);
 
             //Manually craft a Droid Pawn.
             Pawn pawnBeingCrafted = (Pawn)ThingMaker.MakeThing(pawnKindDef.race);

@@ -31,7 +31,7 @@ namespace Androids
                 GenPlace.TryPlaceThing(spawnPawn, parent.Position, parent.Map, ThingPlaceMode.Near);
 
                 if (SpawnerProps.sendMessage)
-                    Messages.Message("AndroidSpawnedPawnMessageText".Translate(spawnPawn.Name), new GlobalTargetInfo(spawnPawn), MessageTypeDefOf.NeutralEvent);
+                    Messages.Message("AndroidSpawnedPawnMessageText".Translate(spawnPawn.Name.ToStringFull), new GlobalTargetInfo(spawnPawn), MessageTypeDefOf.NeutralEvent);
             }
         }
 

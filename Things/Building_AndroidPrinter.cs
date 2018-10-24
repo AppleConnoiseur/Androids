@@ -522,7 +522,7 @@ namespace Androids
                                 pawnToPrint.needs.mood.thoughts.memories.TryGainMemory(NeedsDefOf.ChJAndroidSpawned);
 
                                 //Make and send letter.
-                                ChoiceLetter letter = LetterMaker.MakeLetter("AndroidPrintedLetterLabel".Translate(pawnToPrint.Name.ToStringShort), "AndroidPrintedLetterDescription".Translate(pawnToPrint.Name), LetterDefOf.PositiveEvent, pawnToPrint);
+                                ChoiceLetter letter = LetterMaker.MakeLetter("AndroidPrintedLetterLabel".Translate(pawnToPrint.Name.ToStringShort), "AndroidPrintedLetterDescription".Translate(pawnToPrint.Name.ToStringFull), LetterDefOf.PositiveEvent, pawnToPrint);
                                 Find.LetterStack.ReceiveLetter(letter);
 
                                 //Reset

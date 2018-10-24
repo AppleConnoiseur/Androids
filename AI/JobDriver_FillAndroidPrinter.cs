@@ -37,11 +37,7 @@ namespace Androids
             {
                 thing = base.TargetThingA;
             }
-            return "ReportHaulingTo".Translate(new object[]
-            {
-                thing.LabelCap,
-                job.targetB.Thing.LabelShort
-            });
+            return "ReportHaulingTo".Translate(thing.LabelCap, job.targetB.Thing.LabelShort);
         }
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)

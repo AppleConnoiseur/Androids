@@ -34,7 +34,7 @@ namespace Androids
                 {
                     Dialog_MessageBox dialog = 
                         Dialog_MessageBox.CreateConfirmation(
-                            "AndroidSelfDetonationConfirmationDialogText".Translate(pawn.Name), 
+                            "AndroidSelfDetonationConfirmationDialogText".Translate(pawn.Name.ToStringFull), 
                             () => pawn.Kill(null), 
                             true, 
                             "AndroidGizmoSelfDetonationLabel".Translate());

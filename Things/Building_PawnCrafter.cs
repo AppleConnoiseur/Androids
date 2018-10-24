@@ -500,7 +500,7 @@ namespace Androids
                                     pawnBeingCrafted.needs.mood.thoughts.memories.TryGainMemory(printerProperties.thoughtOnPawnCrafted);
 
                                 //Make and send letter.
-                                ChoiceLetter letter = LetterMaker.MakeLetter(printerProperties.pawnCraftedLetterLabel.Translate(pawnBeingCrafted.Name.ToStringShort), printerProperties.pawnCraftedLetterText.Translate(pawnBeingCrafted.Name), LetterDefOf.PositiveEvent, pawnBeingCrafted);
+                                ChoiceLetter letter = LetterMaker.MakeLetter(printerProperties.pawnCraftedLetterLabel.Translate(pawnBeingCrafted.Name.ToStringShort), printerProperties.pawnCraftedLetterText.Translate(pawnBeingCrafted.Name.ToStringFull), LetterDefOf.PositiveEvent, pawnBeingCrafted);
                                 Find.LetterStack.ReceiveLetter(letter);
 
                                 //Reset

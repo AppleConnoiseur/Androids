@@ -628,7 +628,7 @@ namespace Androids
                     }
 
                     //Removes this trait.
-                    if(Widgets.ButtonImage(removeButtonRect, TexCommand.Forbidden))
+                    if(Widgets.ButtonImage(removeButtonRect, TexCommand.ForbidOn))
                     {
                         traitToBeRemoved = trait;
                     }
@@ -1144,11 +1144,10 @@ namespace Androids
                 }
 
                 //Post process age to adulthood. Two methods.
-                //Icon
                 LifeStageAge adultLifestage = pawn.RaceProps.lifeStageAges.Last();
                 if(adultLifestage != null)
                 {
-                    int ageInTicks = (int)Math.Ceiling(adultLifestage.minAge) * GenDate.TicksPerYear;
+                    long ageInTicks = (long)Math.Ceiling(adultLifestage.minAge) * (long)GenDate.TicksPerYear;
 
                     pawn.ageTracker.AgeBiologicalTicks = ageInTicks;
                     pawn.ageTracker.AgeChronologicalTicks = ageInTicks;
@@ -1156,7 +1155,7 @@ namespace Androids
                 else
                 {
                     //Max age
-                    int ageInTicks = (int)(pawn.RaceProps.lifeExpectancy * GenDate.TicksPerYear * 0.2f);
+                    long ageInTicks = (long)(pawn.RaceProps.lifeExpectancy * (long)GenDate.TicksPerYear * 0.2f);
 
                     pawn.ageTracker.AgeBiologicalTicks = ageInTicks;
                     pawn.ageTracker.AgeChronologicalTicks = ageInTicks;

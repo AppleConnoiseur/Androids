@@ -99,7 +99,7 @@ namespace Androids
                     {
                         if(AndroidsModSettings.Instance.droidDetonationConfirmation)
                         {
-                            Dialog_MessageBox dialog = Dialog_MessageBox.CreateConfirmation("AndroidSelfDetonationConfirmationDialogText".Translate(pawn.Name), () => HealthUtility.AdjustSeverity(pawn, HediffDefOf.ChjOverheating, 1.1f), true, "AndroidGizmoSelfDetonationLabel".Translate());
+                            Dialog_MessageBox dialog = Dialog_MessageBox.CreateConfirmation("AndroidSelfDetonationConfirmationDialogText".Translate(pawn.Name.ToStringFull), () => HealthUtility.AdjustSeverity(pawn, HediffDefOf.ChjOverheating, 1.1f), true, "AndroidGizmoSelfDetonationLabel".Translate());
                             Find.WindowStack.Add(dialog);
                         }
                         else

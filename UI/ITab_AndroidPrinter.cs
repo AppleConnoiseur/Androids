@@ -64,7 +64,7 @@ namespace Androids
                 parentFilter = selStoreSettingsParent.GetParentStoreSettings().filter;
             }
             Rect rect2 = new Rect(0f, 40f, position.width, position.height - 40f);
-            ThingFilterUI.DoThingFilterConfigWindow(rect2, ref this.scrollPosition, settings.filter, parentFilter, 8, null, null, null);
+            ThingFilterUI.DoThingFilterConfigWindow(rect2, ref this.scrollPosition, settings.filter, parentFilter, 8);
             PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.StorageTab, KnowledgeAmount.FrameDisplayed);
             GUI.EndGroup();
         }

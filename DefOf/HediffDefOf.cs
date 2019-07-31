@@ -18,6 +18,7 @@ namespace Androids
         public static HediffDef ChjOverheating;
         public static HediffDef ChjCoolantLoss;
         public static HediffDef ChjPowerShortage;
+        public static HediffDef ChjAndroidUpgrade_DroneCore;
 
         //For Android-like things.
         public static HediffDef ChjAndroidLike;

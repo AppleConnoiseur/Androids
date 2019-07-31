@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,11 +24,21 @@ namespace Androids
         /// </summary>
         public Color originalSkinColorTwo;
 
-        public override void Apply()
+        public override void Apply(Pawn customTarget = null)
         {
-            base.Apply();
+            base.Apply(customTarget);
 
-            AlienComp alienComp = customizationWindow.newAndroid.TryGetComp<AlienComp>();
+            Pawn targetPawn = null;
+            if (customTarget != null)
+            {
+                targetPawn = customTarget;
+            }
+            else
+            {
+                targetPawn = customizationWindow.newAndroid;
+            }
+
+            AlienComp alienComp = targetPawn.TryGetComp<AlienComp>();
             if (alienComp != null)
             {
                 originalSkinColor = alienComp.skinColor;
@@ -36,7 +47,15 @@ namespace Androids
                 alienComp.skinColor = def.newSkinColor;
                 alienComp.skinColorSecond = def.newSkinColor;
 
-                customizationWindow.refreshAndroidPortrait = true;
+                if(customizationWindow != null)
+                {
+                    customizationWindow.refreshAndroidPortrait = true;
+                }
+                else
+                {
+                    PortraitsCache.SetDirty(targetPawn);
+                    PortraitsCache.PortraitsCacheUpdate();
+                }
             }
             else
             {

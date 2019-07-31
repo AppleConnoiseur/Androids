@@ -330,7 +330,7 @@ namespace Androids
                     hairTypeRect.width -= 8f;
                     hairTypeRect.x = hairColorRect.x + hairColorRect.width + 8f;
 
-                    if (Widgets.ButtonText(hairTypeRect, newAndroid.story?.hairDef.LabelCap ?? "Bald"))
+                    if (Widgets.ButtonText(hairTypeRect, newAndroid?.story?.hairDef?.LabelCap ?? "Bald"))
                     {
                         //Change hairstyle
                         //FloatMenuUtility.
@@ -340,13 +340,16 @@ namespace Androids
                             where (newAndroid.gender == Gender.Female && (hairdef.hairGender == HairGender.Any || hairdef.hairGender == HairGender.Female || hairdef.hairGender == HairGender.FemaleUsually)) || (newAndroid.gender == Gender.Male && (hairdef.hairGender == HairGender.Any || hairdef.hairGender == HairGender.Male || hairdef.hairGender == HairGender.MaleUsually))
                             select hairdef;
 
-                        FloatMenuUtility.MakeMenu<HairDef>(hairs, hairDef => hairDef.LabelCap, (HairDef hairDef) => delegate
+                        if(hairs != null)
                         {
-                            newAndroid.story.hairDef = hairDef;
-                            newAndroid.Drawer.renderer.graphics.ResolveAllGraphics();
-                            PortraitsCache.SetDirty(newAndroid);
-                            PortraitsCache.PortraitsCacheUpdate();
-                        });
+                            FloatMenuUtility.MakeMenu<HairDef>(hairs, hairDef => hairDef.LabelCap, (HairDef hairDef) => delegate
+                            {
+                                newAndroid.story.hairDef = hairDef;
+                                newAndroid.Drawer.renderer.graphics.ResolveAllGraphics();
+                                PortraitsCache.SetDirty(newAndroid);
+                                PortraitsCache.PortraitsCacheUpdate();
+                            });
+                        }
                     }
                 }
 
@@ -1097,8 +1100,10 @@ namespace Androids
             //Make Android-like if not a Android.
             if(currentPawnKindDef.race != ThingDefOf.ChjAndroid)
             {
+                HarmonyPatches.bypassGenerationOfUpgrades = true;
                 pawn = PawnGenerator.GeneratePawn(new PawnGenerationRequest(currentPawnKindDef, androidPrinter.Faction, RimWorld.PawnGenerationContext.NonPlayer,
                 -1, true, false, false, false, false, false, 0f, false, true, true, false, false, false, true, genPawn => genPawn.gender == gender));
+                HarmonyPatches.bypassGenerationOfUpgrades = false;
 
                 //Give random skin and hair color.
                 ThingDef_AlienRace alien = ThingDefOf.ChjAndroid as ThingDef_AlienRace;

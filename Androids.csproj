@@ -36,7 +36,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="AlienRace">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\AlienRace\Assemblies\AlienRace.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\workshop\content\294100\839005762\Assemblies\AlienRace.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
@@ -72,13 +72,16 @@
     <Compile Include="Customization\UpgradeCommand_Hediff.cs" />
     <Compile Include="Customization\UpgradeCommand_Skin.cs" />
     <Compile Include="Customization\UpgradeMaker.cs" />
+    <Compile Include="DefOf\ThoughtDefOf.cs" />
     <Compile Include="Defs\AndroidUpgradeDef.cs" />
     <Compile Include="Defs\AndroidUpgradeGroupDef.cs" />
     <Compile Include="Defs\DroidCraftingDef.cs" />
     <Compile Include="Hediffs\AndroidLikeHediff.cs" />
     <Compile Include="Hediffs\Hediff_BlackBox.cs" />
+    <Compile Include="Hediffs\Hediff_LoverMentality.cs" />
     <Compile Include="Hediffs\Hediff_MechaniteHive.cs" />
     <Compile Include="Hediffs\Hediff_VanometricCell.cs" />
+    <Compile Include="Integration\Properties\SexualizeAndroidRJW.cs" />
     <Compile Include="Logic\DroidSkill.cs" />
     <Compile Include="Logic\IExtraDisplayStats.cs" />
     <Compile Include="Logic\IExtraGizmos.cs" />
@@ -144,6 +147,7 @@
     <Compile Include="Workers\Recipe_Disassemble.cs" />
     <Compile Include="Workers\Recipe_RepairKit.cs" />
     <Compile Include="Workers\ThoughtWorker_DroidAlways.cs" />
+    <Compile Include="Workers\ThoughtWorker_LoverMentality.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StatParts\" />

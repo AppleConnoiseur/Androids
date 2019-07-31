@@ -19,15 +19,25 @@ namespace Androids
         /// </summary>
         public BodyTypeDef originalBodyType;
 
-        public override void Apply()
+        public override void Apply(Pawn customTarget = null)
         {
-            base.Apply();
+            base.Apply(customTarget);
 
-            originalBodyType = customizationWindow.newAndroid.story.bodyType;
+            Pawn targetPawn = null;
+            if(customTarget != null)
+            {
+                targetPawn = customTarget;
+            }
+            else
+            {
+                targetPawn = customizationWindow.newAndroid;
+            }
+
+            originalBodyType = targetPawn.story.bodyType;
 
             bool canChangeBodyType = false;
 
-            if (customizationWindow.newAndroid.def is ThingDef_AlienRace alienDef)
+            if (targetPawn.def is ThingDef_AlienRace alienDef)
             {
                 //Check if the alien race can use this body.
                 canChangeBodyType = alienDef.alienRace.generalSettings.alienPartGenerator.alienbodytypes.Contains(def.newBodyType);
@@ -38,9 +48,12 @@ namespace Androids
             }
 
             if(canChangeBodyType)
-                customizationWindow.newAndroid.story.bodyType = def.newBodyType;
+                targetPawn.story.bodyType = def.newBodyType;
 
-            customizationWindow.refreshAndroidPortrait = true;
+            if(customizationWindow != null)
+            {
+                customizationWindow.refreshAndroidPortrait = true;
+            }
         }
 
         public override void Undo()

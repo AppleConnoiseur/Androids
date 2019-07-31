@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Verse;
 
 namespace Androids
 {
@@ -24,7 +25,7 @@ namespace Androids
         /// <summary>
         /// Applies the upgrade to the Android.
         /// </summary>
-        public abstract void Apply();
+        public abstract void Apply(Pawn customTarget = null);
 
         /// <summary>
         /// Undoes the upgrade to the Android.

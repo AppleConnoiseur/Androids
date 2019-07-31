@@ -120,6 +120,8 @@ namespace Androids
         /// </summary>
         public ResearchProjectDef requiredResearch;
 
+        public List<string> spawnInBackstories = new List<string>();
+
         /*public override void ResolveReferences()
         {
             iconTexture = ContentFinder<Texture2D>.Get(iconTexturePath);

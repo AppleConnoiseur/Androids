@@ -13,9 +13,19 @@ namespace Androids
     {
         public List<Hediff> appliedHediffs = new List<Hediff>();
 
-        public override void Apply()
+        public override void Apply(Pawn customTarget = null)
         {
-            if (customizationWindow == null)
+            Pawn targetPawn = null;
+            if (customTarget != null)
+            {
+                targetPawn = customTarget;
+            }
+            else
+            {
+                targetPawn = customizationWindow.newAndroid;
+            }
+
+            if (customTarget == null && customizationWindow == null)
             {
                 Log.Error("customizationWindow is null! Impossible to add Hediffs without it.");
                 return;
@@ -27,27 +37,27 @@ namespace Androids
                 {
                     foreach (BodyPartGroupDef bodyPartDef in def.partsToApplyTo)
                     {
-                        IEnumerable<BodyPartRecord> notMissingParts = customizationWindow.newAndroid.health.hediffSet.GetNotMissingParts(depth: BodyPartDepth.Outside);
+                        IEnumerable<BodyPartRecord> notMissingParts = targetPawn.health.hediffSet.GetNotMissingParts(depth: BodyPartDepth.Outside);
                         foreach (BodyPartRecord part in notMissingParts)
                         {
                             if (part.IsInGroup(bodyPartDef) && (def.partsDepth == BodyPartDepth.Undefined || part.depth == def.partsDepth))
                             {
-                                Hediff hediff = HediffMaker.MakeHediff(def.hediffToApply, customizationWindow.newAndroid, part);
+                                Hediff hediff = HediffMaker.MakeHediff(def.hediffToApply, targetPawn, part);
                                 hediff.Severity = def.hediffSeverity;
 
                                 appliedHediffs.Add(hediff);
-                                customizationWindow.newAndroid.health.AddHediff(hediff);
+                                targetPawn.health.AddHediff(hediff);
                             }
                         }
                     }
                 }
                 else
                 {
-                    Hediff hediff = HediffMaker.MakeHediff(def.hediffToApply, customizationWindow.newAndroid);
+                    Hediff hediff = HediffMaker.MakeHediff(def.hediffToApply, targetPawn);
                     hediff.Severity = def.hediffSeverity;
 
                     appliedHediffs.Add(hediff);
-                    customizationWindow.newAndroid.health.AddHediff(hediff);
+                    targetPawn.health.AddHediff(hediff);
 
                     //Log.Message("Applied Hediff: " + hediff.ToString());
                 }

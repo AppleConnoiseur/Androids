@@ -34,6 +34,8 @@ namespace Androids
         public static NeedDef Need_Bladder;
         public static NeedDef Need_Hygiene;
 
+        public static bool bypassGenerationOfUpgrades = false;
+
         static HarmonyPatches()
         {
             //Try get needs.
@@ -250,7 +252,7 @@ namespace Androids
                 harmony.Patch(
                     AccessTools.Method(type, "TryGenerateNewPawnInternal"),
                     new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_PawnGenerator_TryGenerateNewPawnInternal))),
-                    null);
+                    new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_PawnGenerator_TryGenerateNewPawnInternal_Post))));
             }
 
             //Droid
@@ -408,6 +410,45 @@ namespace Androids
 
             //Let original pawn generator run.
             return true;
+        }
+
+        public static void Patch_PawnGenerator_TryGenerateNewPawnInternal_Post(ref Pawn __result)
+        {
+            if(__result == null)
+            {
+                return;
+            }
+
+            //Post process with upgrades for naturally generated pawns.
+            if(!bypassGenerationOfUpgrades)
+            {
+                if(__result.IsAndroid())
+                {
+                    bool alreadyGotUpgrade = false;
+
+                    if (__result.story != null)
+                    {
+                        foreach (AndroidUpgradeDef def in DefDatabase<AndroidUpgradeDef>.AllDefs)
+                        {
+                            if (__result.story.childhood != null && def.spawnInBackstories.Contains(__result.story.childhood.untranslatedTitle) ||
+                                __result.story.adulthood != null && def.spawnInBackstories.Contains(__result.story.adulthood.untranslatedTitle))
+                            {
+                                UpgradeCommand command = UpgradeMaker.Make(def);
+                                command.Apply(__result);
+                                alreadyGotUpgrade = true;
+                            }
+                        }
+                    }
+
+                    //1 in 10 Androids get a free upgrade.
+                    if(!alreadyGotUpgrade && Rand.Chance(0.1f))
+                    {
+                        AndroidUpgradeDef def = DefDatabase<AndroidUpgradeDef>.AllDefs.RandomElement();
+                        UpgradeCommand command = UpgradeMaker.Make(def);
+                        command.Apply(__result);
+                    }
+                }
+            }
         }
 
         public static bool Patch_PawnUtility_HumanFilthChancePerCell(float __result, ThingDef def)

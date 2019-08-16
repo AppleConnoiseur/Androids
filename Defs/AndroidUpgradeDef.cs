@@ -120,7 +120,15 @@ namespace Androids
         /// </summary>
         public ResearchProjectDef requiredResearch;
 
+        /// <summary>
+        /// This upgrade is added to these backstories.
+        /// </summary>
         public List<string> spawnInBackstories = new List<string>();
+
+        /// <summary>
+        /// If this upgrade invasive it can't be added later on.
+        /// </summary>
+        public bool invasive = true;
 
         /*public override void ResolveReferences()
         {

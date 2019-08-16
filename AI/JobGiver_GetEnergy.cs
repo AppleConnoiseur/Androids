@@ -68,6 +68,45 @@ namespace Androids
             }
 
             //No power source? Try looking for a consumable resource.
+
+            //In the inventory. (Or being carried)
+            if(pawn.carryTracker is Pawn_CarryTracker carryTracker && carryTracker.CarriedThing is Thing carriedThing && carriedThing.TryGetComp<EnergySourceComp>() is EnergySourceComp carriedThingComp && carriedThingComp.EnergyProps.isConsumable)
+            {
+                if (carriedThing.stackCount > 0)
+                {
+                    return new Job(JobDefOf.ChJAndroidRechargeEnergyComp, new LocalTargetInfo(carriedThing))
+                    {
+                        count = carriedThing.stackCount
+                    };
+                }
+            }
+            if(pawn.inventory is Pawn_InventoryTracker inventory && inventory.innerContainer.Any(thing => thing.TryGetComp<EnergySourceComp>() is EnergySourceComp comp && comp.EnergyProps.isConsumable))
+            {
+                Thing validEnergySource =
+                        inventory.innerContainer.FirstOrDefault(
+                            thing =>
+                            thing.TryGetComp<EnergySourceComp>() is EnergySourceComp energySource &&
+                            energySource.EnergyProps.isConsumable
+                            );
+                if (validEnergySource != null)
+                {
+                    //Use enough to get satisfied.
+                    EnergySourceComp energySourceComp = validEnergySource.TryGetComp<EnergySourceComp>();
+
+                    int thingCount = (int)Math.Ceiling((energy.MaxLevel - energy.CurLevel) / energySourceComp.EnergyProps.energyWhenConsumed);
+                    thingCount = Math.Min(thingCount, validEnergySource.stackCount);
+
+                    if (thingCount > 0)
+                    {
+                        return new Job(JobDefOf.ChJAndroidRechargeEnergyComp, new LocalTargetInfo(validEnergySource))
+                        {
+                            count = thingCount
+                        };
+                    }
+                }
+            }
+
+            //On the map.
             Thing closestConsumablePowerSource = 
                 GenClosest.ClosestThingReachable(
                     pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEver), PathEndMode.OnCell, TraverseParms.For(pawn), 9999f,

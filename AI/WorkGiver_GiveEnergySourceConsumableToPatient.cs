@@ -41,7 +41,7 @@ namespace Androids
             if (!targetPawn?.Faction?.IsPlayer ?? true)
                 return false;
 
-            if (!targetPawn.InBed() || !targetPawn.Downed)
+            if (/*!targetPawn.InBed() || */!targetPawn.Downed)
                 return false;
 
             if (!HealthAIUtility.ShouldSeekMedicalRest(targetPawn))
@@ -59,7 +59,7 @@ namespace Androids
             if (closestEnergySource == null)
                 return false;
 
-            if (!pawn.CanReserve(new LocalTargetInfo(closestEnergySource)))
+            if (closestEnergySource.Spawned && !pawn.CanReserve(new LocalTargetInfo(closestEnergySource)))
                 return false;
 
             return true;
@@ -99,9 +99,32 @@ namespace Androids
         /// <returns>Thing if found any, null if not.</returns>
         public Thing TryFindBestEnergySource(Pawn pawn)
         {
+            //In inventory. (Or carried)
+            if (pawn.carryTracker is Pawn_CarryTracker carryTracker && carryTracker.CarriedThing is Thing carriedThing && carriedThing.TryGetComp<EnergySourceComp>() is EnergySourceComp carriedThingComp && carriedThingComp.EnergyProps.isConsumable)
+            {
+                if (carriedThing.stackCount > 0)
+                {
+                    return carryTracker.CarriedThing;
+                }
+            }
+            if (pawn.inventory is Pawn_InventoryTracker inventory)
+            {
+                Thing validInternalEnergySource =
+                        inventory.innerContainer.FirstOrDefault(
+                            thing =>
+                            thing.TryGetComp<EnergySourceComp>() is EnergySourceComp energySource &&
+                            energySource.EnergyProps.isConsumable
+                            );
+                if (validInternalEnergySource != null)
+                {
+                    return validInternalEnergySource;
+                }
+            }
+
+            //On map.
             Thing closestEnergySource = GenClosest.ClosestThingReachable(
-                pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEver), PathEndMode.ClosestTouch, TraverseParms.For(pawn), 9999f,
-                searchThing => searchThing.TryGetComp<EnergySourceComp>() != null && !searchThing.IsForbidden(pawn) && pawn.CanReserve(searchThing) && searchThing.Position.InAllowedArea(pawn) && pawn.CanReach(new LocalTargetInfo(searchThing), PathEndMode.OnCell, Danger.Deadly));
+            pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEver), PathEndMode.ClosestTouch, TraverseParms.For(pawn), 9999f,
+            searchThing => searchThing.TryGetComp<EnergySourceComp>() != null && !searchThing.IsForbidden(pawn) && pawn.CanReserve(searchThing) && searchThing.Position.InAllowedArea(pawn) && pawn.CanReach(new LocalTargetInfo(searchThing), PathEndMode.OnCell, Danger.Deadly));
 
             return closestEnergySource;
         }

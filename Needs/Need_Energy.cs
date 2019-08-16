@@ -98,7 +98,7 @@ namespace Androids
                 }
 
                 //Energy gain in caravan.
-                if(pawn.IsCaravanMember() && CurLevelPercentage < rechargePercentage)
+                if(pawn.IsCaravanMember() && pawn.IsHashIntervalTick(250) && CurLevelPercentage < rechargePercentage)
                 {
                     Caravan caravan = pawn.GetCaravan();
                     Thing validEnergySource = 

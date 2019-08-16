@@ -354,21 +354,19 @@ namespace Androids
             {
                 Type type = typeof(Alert_Boredom);
 
-                //For some reason this did not work.
-                /*harmony.Patch(
-                    AccessTools.Method(type, "BoredPawns"),
-                    new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_BoredPawns))),
-                    null);
-
-                Log.Message("Patched Alert_Boredom.BoredPawns");*/
-
-                //But this did.
                 harmony.Patch(
                     AccessTools.Method(type, "GetReport"),
                     new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(CompatPatch_Boredom_GetReport))),
                     null);
+            }
 
-                //Log.Message("Patched Alert_Boredom.BoredPawns");
+            {
+                Type type = typeof(Caravan); //get_NightResting
+
+                harmony.Patch(
+                    AccessTools.Property(type, "NightResting").GetGetMethod(),
+                    new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_Caravan_NightResting))),
+                    null);
             }
 
             /*{
@@ -395,6 +393,18 @@ namespace Androids
             }*/
 
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+        }
+
+        public static bool Patch_Caravan_NightResting(ref bool __result, ref Caravan __instance)
+        {
+            //Only bother if the entire Caravan consists of droids.
+            if(__instance.pawns.InnerListForReading.Any(pawn => !pawn.def.HasModExtension<MechanicalPawnProperties>()))
+            {
+                return true;
+            }
+
+            __result = false;
+            return false;
         }
 
         public static bool Patch_PawnGenerator_TryGenerateNewPawnInternal(ref Pawn __result, ref PawnGenerationRequest request, out string error)

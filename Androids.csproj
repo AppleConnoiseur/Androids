@@ -81,10 +81,12 @@
     <Compile Include="Hediffs\Hediff_LoverMentality.cs" />
     <Compile Include="Hediffs\Hediff_MechaniteHive.cs" />
     <Compile Include="Hediffs\Hediff_VanometricCell.cs" />
+    <Compile Include="Hediffs\Properties\AndroidUpgradeHediffProperties.cs" />
     <Compile Include="Integration\Properties\SexualizeAndroidRJW.cs" />
     <Compile Include="Logic\DroidSkill.cs" />
     <Compile Include="Logic\IExtraDisplayStats.cs" />
     <Compile Include="Logic\IExtraGizmos.cs" />
+    <Compile Include="StatParts\AndroidValueStatPart.cs" />
     <Compile Include="ThingComp\CompProperties_EnergyTracker.cs" />
     <Compile Include="ThingComp\CompUseEffect_SpawnCustomDroid.cs" />
     <Compile Include="ThingComp\EnergySource_Fueled.cs" />
@@ -149,8 +151,6 @@
     <Compile Include="Workers\ThoughtWorker_DroidAlways.cs" />
     <Compile Include="Workers\ThoughtWorker_LoverMentality.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="StatParts\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

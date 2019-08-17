@@ -1094,8 +1094,7 @@ namespace Androids
         public Pawn GetNewPawn(Gender gender = Gender.Female)
         {
             //Make base pawn.
-            Pawn pawn /*= PawnGenerator.GeneratePawn(new PawnGenerationRequest(currentPawnKindDef, androidPrinter.Faction, RimWorld.PawnGenerationContext.NonPlayer, 
-                -1, true, false, false, false, false, false, 0f, false, true, true, false, false, false, true, genPawn => genPawn.gender == gender, 20, 20))*/;
+            Pawn pawn;
 
             //Make Android-like if not a Android.
             if(currentPawnKindDef.race != ThingDefOf.ChjAndroid)

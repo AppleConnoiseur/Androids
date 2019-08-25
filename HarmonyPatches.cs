@@ -414,6 +414,7 @@ namespace Androids
             //Hijack the process if a Droid is detected.
             if (request.KindDef.race.GetModExtension<DroidSpawnProperties>() is DroidSpawnProperties props)
             {
+                //Log.Message($"Generating droid: {request.ToString()}");
                 __result = DroidUtility.MakeDroidTemplate(request.KindDef, request.Faction, request.Tile);
                 return false;
             }

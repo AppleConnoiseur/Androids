@@ -24,7 +24,7 @@ namespace Androids.Integration
 
         public Androids(ModContentPack content) : base(content)
         {
-            Androids.Instance = this;
+            Instance = this;
             AndroidsModSettings.Instance = GetSettings<AndroidsModSettings>();
 
             //Load settings for buffers.
@@ -46,8 +46,6 @@ namespace Androids.Integration
 
             Rect ininRect = new Rect(inRect);
             ininRect.width /= 2f;
-            //ininRect.y += 48f;
-            //ininRect.height -= 48f;
 
             {
                 Rect rowRect = UIHelper.GetRowRect(ininRect, rowHeight, row);

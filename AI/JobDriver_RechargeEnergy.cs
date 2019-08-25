@@ -21,11 +21,50 @@ namespace Androids
 
         public Need_Energy energyNeed;
 
+        public int ticksSpentCharging = 0;
+
+        public int MaxTicksSpentCharging
+        {
+            get
+            {
+                if(energyNeed.EnergyTracker == null)
+                {
+                    return 300;
+                }
+                else
+                {
+                    return energyNeed.EnergyTracker.EnergyProperties.ticksSpentCharging;
+                }
+            }
+        }
+
+        public float PowerNetEnergyDrainedPerTick
+        {
+            get
+            {
+                if (energyNeed.EnergyTracker == null)
+                {
+                    return 1.32f;
+                }
+                else
+                {
+                    return energyNeed.EnergyTracker.EnergyProperties.powerNetDrainRate;
+                }
+            }
+        }
+
         public override void Notify_Starting()
         {
             base.Notify_Starting();
 
             energyNeed = GetActor().needs.TryGetNeed<Need_Energy>();
+        }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+
+            Scribe_Values.Look(ref ticksSpentCharging, "ticksSpentCharging");
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
@@ -49,26 +88,31 @@ namespace Androids
             rechargeToil.tickAction = delegate
             {
                 //Drain the powernet.
-                CompPowerBattery compBattery = powerBuilding.PowerComp?.PowerNet?.batteryComps?.FirstOrDefault(battery => battery.StoredEnergy > 1.32f);
+                CompPowerBattery compBattery = powerBuilding.PowerComp?.PowerNet?.batteryComps?.FirstOrDefault(battery => battery.StoredEnergy > PowerNetEnergyDrainedPerTick);
 
                 if(compBattery != null)
                 {
-                    compBattery.DrawPower(1.32f);
+                    compBattery.DrawPower(PowerNetEnergyDrainedPerTick);
 
                     //Add to our energy.
-                    energyNeed.CurLevel += 1f / 300f;
+                    energyNeed.CurLevel += energyNeed.MaxLevel / MaxTicksSpentCharging;
                 }
+
+                ticksSpentCharging++;
             };
             rechargeToil.AddEndCondition(delegate
             {
                 if (powerBuilding == null || powerBuilding.PowerComp == null /*|| temporaryTrader == null*/)
                     return JobCondition.Incompletable;
 
-                if(powerBuilding.PowerComp?.PowerNet.CurrentStoredEnergy() < 1.32f)
+                if(powerBuilding.PowerComp?.PowerNet.CurrentStoredEnergy() < PowerNetEnergyDrainedPerTick)
                     return JobCondition.Incompletable;
 
                 if (energyNeed.CurLevelPercentage >= 0.99f)
                     return JobCondition.Succeeded;
+
+                if(ticksSpentCharging > MaxTicksSpentCharging)
+                    return JobCondition.Incompletable;
 
                 return JobCondition.Ongoing;
             });

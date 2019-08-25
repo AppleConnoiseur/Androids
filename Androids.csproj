@@ -97,6 +97,7 @@
     <Compile Include="Things\Properties\DroidSpawnProperties.cs" />
     <Compile Include="UI\AndroidCustomizationTweaks.cs" />
     <Compile Include="UI\Gizmos\Gizmo_EnergySourceFueled.cs" />
+    <Compile Include="Utilities\AndroidUtility.cs" />
     <Compile Include="Utilities\ButcherUtility.cs" />
     <Compile Include="DefOf\DamageDefOf.cs" />
     <Compile Include="Utilities\DroidUtility.cs" />

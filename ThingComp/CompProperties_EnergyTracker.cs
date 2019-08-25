@@ -21,6 +21,14 @@ namespace Androids
         /// </summary>
         public bool canHibernate = true;
 
+        public float maxEnergy = 1f;
+
+        public float drainRateModifier = 1f;
+
+        public float powerNetDrainRate = 1.32f;
+
+        public int ticksSpentCharging = 300;
+
         /// <summary>
         /// Job to give when hibernating.
         /// </summary>

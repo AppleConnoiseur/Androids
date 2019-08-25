@@ -20,19 +20,27 @@ namespace Androids
         /// </summary>
         public static float rechargePercentage = 0.505f;
 
+        public EnergyTrackerComp EnergyTracker
+        {
+            get
+            {
+                return pawn.TryGetComp<EnergyTrackerComp>();
+            }
+        }
+
         public Need_Energy(Pawn pawn)
         {
             this.pawn = pawn;
         }
 
-        public override float MaxLevel => 1.0f;
+        public override float MaxLevel => pawn.TryGetComp<EnergyTrackerComp>() is EnergyTrackerComp tracker ? tracker.EnergyProperties.maxEnergy : 1f;
 
         /// <summary>
         /// Start with Energy maxed.
         /// </summary>
         public override void SetInitialLevel()
         {
-            CurLevel = 1.0f;
+            CurLevel = MaxLevel;
         }
 
         public override void DrawOnGUI(Rect rect, int maxThresholdMarkers = int.MaxValue, float customMargin = -1F, bool drawArrows = true, bool doTooltip = true)
@@ -42,8 +50,25 @@ namespace Androids
                 threshPercents = new List<float>();
             }
             threshPercents.Clear();
-            threshPercents.Add(0.5f);
-            threshPercents.Add(0.2f);
+            
+            //Add one for each full percent.
+            if(MaxLevel > 1.0f)
+            {
+                float fullPip = 1f / MaxLevel;
+                threshPercents.Add(fullPip * 0.5f);
+                threshPercents.Add(fullPip * 0.2f);
+                for (int i = 0; i < (int)Math.Floor(MaxLevel); i++)
+                {
+                    threshPercents.Add(fullPip + (fullPip * i));
+                }
+            }
+            else
+            {
+                threshPercents.Add(0.5f);
+                threshPercents.Add(0.2f);
+            }
+
+            //Widgets.Label(rect, $"MaxLevel={MaxLevel}");
 
             base.DrawOnGUI(rect, maxThresholdMarkers, customMargin, drawArrows, doTooltip);
         }
@@ -66,10 +91,16 @@ namespace Androids
             }
 
             float drainModifier = 1f;
-            if(!pawn.IsCaravanMember() && pawn.TryGetComp<EnergyTrackerComp>() is EnergyTrackerComp energyTracker 
-                && energyTracker.EnergyProperties.canHibernate && pawn.CurJobDef == energyTracker.EnergyProperties.hibernationJob)
+            if(pawn.TryGetComp<EnergyTrackerComp>() is EnergyTrackerComp energyTracker)
             {
-                drainModifier = -0.1f;
+                if(!pawn.IsCaravanMember() && energyTracker.EnergyProperties.canHibernate && pawn.CurJobDef == energyTracker.EnergyProperties.hibernationJob)
+                {
+                    drainModifier = -0.1f;
+                }
+                else
+                {
+                    drainModifier *= energyTracker.EnergyProperties.drainRateModifier;
+                }
             }
 
             //Top up our Energy levels as long as we are fed.

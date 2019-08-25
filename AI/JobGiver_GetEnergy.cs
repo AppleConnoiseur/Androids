@@ -43,6 +43,12 @@ namespace Androids
             if (energy.CurLevelPercentage >= Need_Energy.rechargePercentage)
                 return null;
 
+            if (Find.TickManager.TicksGame < GetLastTryTick(pawn) + 2500)
+            {
+                return null;
+            }
+            SetLastTryTick(pawn, Find.TickManager.TicksGame);
+
             //See if we got a nearby powernet to tap into.
             Thing closestPowerSource = EnergyNeedUtility.ClosestPowerSource(pawn);
 
@@ -128,6 +134,21 @@ namespace Androids
             }
 
             return null;
+        }
+
+        private int GetLastTryTick(Pawn pawn)
+        {
+            int result;
+            if (pawn.mindState.thinkData.TryGetValue(base.UniqueSaveKey, out result))
+            {
+                return result;
+            }
+            return -99999;
+        }
+
+        private void SetLastTryTick(Pawn pawn, int val)
+        {
+            pawn.mindState.thinkData[base.UniqueSaveKey] = val;
         }
     }
 }

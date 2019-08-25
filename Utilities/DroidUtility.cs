@@ -28,7 +28,12 @@ namespace Androids
         /// <returns>New Pawn if successful. Null if not.</returns>
         public static Pawn MakeDroidTemplate(PawnKindDef pawnKindDef, Faction faction, int tile, List<SkillRequirement> skills = null, int defaultSkillLevel = 6)
         {
-            Map map = Current.Game.FindMap(tile);
+            Map map = null;
+            if(tile > -1)
+            {
+                map = Current.Game?.FindMap(tile);
+            }
+
             //Log.Message("Map: " + map);
 
             //Manually craft a Droid Pawn.
@@ -38,7 +43,10 @@ namespace Androids
 
             //Kind, Faction and initial Components.
             pawnBeingCrafted.kindDef = pawnKindDef;
-            pawnBeingCrafted.SetFactionDirect(faction);
+            if(faction != null)
+            {
+                pawnBeingCrafted.SetFactionDirect(faction);
+            }
             PawnComponentsUtility.CreateInitialComponents(pawnBeingCrafted);
 
             //Gender
@@ -183,7 +191,7 @@ namespace Androids
             }
 
             //Name
-            if(map != null)
+            if(map != null && faction.IsPlayer)
             {
                 var names = from pawn in map.mapPawns.FreeColonists
                             select pawn.Name;

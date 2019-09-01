@@ -1127,8 +1127,10 @@ namespace Androids
             }
             else
             {
+                HarmonyPatches.bypassGenerationOfUpgrades = true;
                 pawn = PawnGenerator.GeneratePawn(new PawnGenerationRequest(currentPawnKindDef, androidPrinter.Faction, RimWorld.PawnGenerationContext.NonPlayer,
                 -1, true, false, false, false, false, false, 0f, false, true, true, false, false, false, true, genPawn => genPawn.gender == gender, fixedBiologicalAge: 20, fixedChronologicalAge: 20));
+                HarmonyPatches.bypassGenerationOfUpgrades = false;
             }
 
             //Destroy all equipment and items in inventory.

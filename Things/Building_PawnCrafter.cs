@@ -307,7 +307,7 @@ namespace Androids
         public virtual void FinishAction()
         {
             //Add effects
-            FilthMaker.MakeFilth(InteractionCell, Map, RimWorld.ThingDefOf.Filth_Slime, 5);
+            FilthMaker.TryMakeFilth(InteractionCell, Map, RimWorld.ThingDefOf.Filth_Slime, 5);
         }
 
         public override string GetInspectString()

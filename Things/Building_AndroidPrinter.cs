@@ -514,7 +514,7 @@ namespace Androids
                                 ingredients.ClearAndDestroyContents();
 
                                 //Add effects
-                                FilthMaker.MakeFilth(InteractionCell, Map, RimWorld.ThingDefOf.Filth_Slime, 5);
+                                FilthMaker.TryMakeFilth(InteractionCell, Map, RimWorld.ThingDefOf.Filth_Slime, 5);
 
                                 //Spawn
                                 GenSpawn.Spawn(pawnToPrint, InteractionCell, Map);

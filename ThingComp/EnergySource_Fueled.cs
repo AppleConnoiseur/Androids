@@ -261,9 +261,9 @@ namespace Androids
             }
         }
 
-        public IEnumerable<StatDrawEntry> SpecialDisplayStats()
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
         {
-            StatDrawEntry fuelEfficencyEntry = new StatDrawEntry(StatCategoryDefOf.EquippedStatOffsets, "AndroidFuelEfficencyStatPartLabel".Translate(), FuelUsageModifier().ToString("F2"), 0, "AndroidFuelEfficencyStatPartReport".Translate());
+            StatDrawEntry fuelEfficencyEntry = new StatDrawEntry(StatCategoryDefOf.EquippedStatOffsets, "AndroidFuelEfficencyStatPartLabel".Translate(), FuelUsageModifier().ToString("F2"), "AndroidFuelEfficencyStatPartReport".Translate(), 0);
             yield return fuelEfficencyEntry;
         }
     }

@@ -199,7 +199,7 @@ namespace Androids
                 newAndroid.story.traits.allTraits.Add(gainedTrait);
                 if (newAndroid.workSettings != null)
                 {
-                    newAndroid.workSettings.Notify_GainedTrait();
+                    newAndroid.workSettings.EnableAndInitialize();
                 }
                 if (newAndroid.skills != null)
                 {
@@ -1101,7 +1101,7 @@ namespace Androids
             {
                 HarmonyPatches.bypassGenerationOfUpgrades = true;
                 pawn = PawnGenerator.GeneratePawn(new PawnGenerationRequest(currentPawnKindDef, androidPrinter.Faction, RimWorld.PawnGenerationContext.NonPlayer,
-                -1, true, false, false, false, false, false, 0f, false, true, true, false, false, false, true, genPawn => genPawn.gender == gender));
+                -1, true, false, false, false, false, false, 0f, false, true, true, false, false, false, true, fixedGender: gender));
                 HarmonyPatches.bypassGenerationOfUpgrades = false;
 
                 //Give random skin and hair color.
@@ -1129,7 +1129,7 @@ namespace Androids
             {
                 HarmonyPatches.bypassGenerationOfUpgrades = true;
                 pawn = PawnGenerator.GeneratePawn(new PawnGenerationRequest(currentPawnKindDef, androidPrinter.Faction, RimWorld.PawnGenerationContext.NonPlayer,
-                -1, true, false, false, false, false, false, 0f, false, true, true, false, false, false, true, genPawn => genPawn.gender == gender, fixedBiologicalAge: 20, fixedChronologicalAge: 20));
+                -1, true, false, false, false, false, false, 0f, false, true, true, false, false, false, true, fixedGender: gender, fixedBiologicalAge: 20, fixedChronologicalAge: 20));
                 HarmonyPatches.bypassGenerationOfUpgrades = false;
             }
 
@@ -1145,7 +1145,8 @@ namespace Androids
             //Refresh disabled skills and work.
             if (pawn.workSettings != null)
             {
-                pawn.workSettings.Notify_GainedTrait();
+                //Todo: Fix this.
+                pawn.workSettings.EnableAndInitialize();
             }
             //newAndroid.story.Notify_TraitChanged();
             if (pawn.skills != null)

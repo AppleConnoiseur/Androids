@@ -1008,13 +1008,14 @@ namespace Androids
         public void RefreshPawn()
         {
             //Reflection hackery.
-            Type storyTrackerType = typeof(Pawn_StoryTracker);
+            /*Type storyTrackerType = typeof(Pawn_StoryTracker);
             FieldInfo cachedDisabledWorkTypesField = storyTrackerType.GetField("cachedDisabledWorkTypes", BindingFlags.Instance | BindingFlags.NonPublic);
             
             //Set to null.
-            cachedDisabledWorkTypesField.SetValue(newAndroid.story, null);
+            cachedDisabledWorkTypesField.SetValue(newAndroid.story, null);*/
 
             //Refresh disabled skills.
+            newAndroid.Notify_DisabledWorkTypesChanged();
             newAndroid.skills.Notify_SkillDisablesChanged();
 
             //Refresh skills.

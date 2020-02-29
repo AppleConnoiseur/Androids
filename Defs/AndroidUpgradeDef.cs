@@ -71,6 +71,11 @@ namespace Androids
         public int extraPrintingTime = 0;
 
         /// <summary>
+        /// One or many Hediffs to apply.
+        /// </summary>
+        public List<HediffApplication> hediffs = new List<HediffApplication>();
+
+        /// <summary>
         /// Hediff to apply upon printing.
         /// </summary>
         public HediffDef hediffToApply;
@@ -136,5 +141,20 @@ namespace Androids
 
             base.ResolveReferences();
         }*/
+    }
+
+    /// <summary>
+    /// Applies a Hediff to a certain part.
+    /// </summary>
+    public class HediffApplication
+    {
+        public HediffDef def = null;
+        public float severity = 1f;
+        public BodyPartDef part = null;
+
+        public HediffApplication()
+        {
+
+        }
     }
 }

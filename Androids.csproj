@@ -33,11 +33,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\..\..\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony, Version=2.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Harmony2007\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="AlienRace">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\AlienRaces-master\Assemblies\AlienRace.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\workshop\content\294100\839005762\1.1\Assemblies\AlienRace.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
@@ -86,6 +87,7 @@
     <Compile Include="AI\WorkGiver_PawnCrafter.cs" />
     <Compile Include="Customization\UpgradeCommand.cs" />
     <Compile Include="Customization\UpgradeCommand_Body.cs" />
+    <Compile Include="Customization\UpgradeCommand_Hediffs.cs" />
     <Compile Include="Customization\UpgradeCommand_Hediff.cs" />
     <Compile Include="Customization\UpgradeCommand_Skin.cs" />
     <Compile Include="Customization\UpgradeMaker.cs" />

@@ -85,7 +85,7 @@ namespace Androids
 
                     if(pawnBeingCrafted.def is ThingDef_AlienRace alienRaceDef)
                     {
-                        pawnBeingCrafted.story.hairColor = alienRaceDef.alienRace?.generalSettings?.alienPartGenerator?.alienhaircolorgen?.NewRandomizedColor() ?? new UnityEngine.Color(1f, 1f, 1f, 1f);
+                        pawnBeingCrafted.story.hairColor = alienRaceDef.alienRace?.generalSettings?.alienPartGenerator?.colorChannels.FirstOrDefault(channel => channel.name == "hair").first?.NewRandomizedColor() ?? new UnityEngine.Color(1f, 1f, 1f, 1f);
                     }
                 }
                 else

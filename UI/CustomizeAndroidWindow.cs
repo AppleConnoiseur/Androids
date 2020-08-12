@@ -119,7 +119,7 @@ namespace Androids
                 }
                 else
                 {
-                    if(alien.alienRace.generalSettings.alienPartGenerator.alienhaircolorgen is ColorGenerator_Options colorOptions)
+                    if(alien.alienRace.generalSettings.alienPartGenerator.colorChannels.FirstOrDefault(channel => channel.name == "hair").first is ColorGenerator_Options colorOptions)
                     {
                         foreach(ColorOption colorOption in colorOptions.options)
                             yield return colorOption.only;
@@ -140,7 +140,7 @@ namespace Androids
             get
             {
                 ThingDef_AlienRace alien = ThingDefOf.ChjAndroid as ThingDef_AlienRace;
-                if (alien != null && alien.alienRace.generalSettings.alienPartGenerator.alienskincolorgen is ColorGenerator_Options colorOptions)
+                if (alien != null && alien.alienRace.generalSettings.alienPartGenerator.colorChannels.FirstOrDefault(channel => channel.name == "skin").first is ColorGenerator_Options colorOptions)
                 {
                     foreach (ColorOption colorOption in colorOptions.options)
                         yield return colorOption.only;
@@ -866,7 +866,7 @@ namespace Androids
             //AlienComp alienComp = newAndroid.TryGetComp<AlienComp>();
             if(newAndroid.def is ThingDef_AlienRace alienRaceDef)
             {
-                List<string> disallowedTraits = alienRaceDef?.alienRace?.generalSettings?.disallowedTraits;
+                List<string> disallowedTraits = alienRaceDef?.alienRace?.generalSettings?.disallowedTraits.Select(trait => trait.defName).ToList();
                 if(disallowedTraits != null)
                 {
                     foreach (string traitDefName in disallowedTraits)

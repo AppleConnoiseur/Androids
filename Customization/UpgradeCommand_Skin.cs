@@ -41,11 +41,11 @@ namespace Androids
             AlienComp alienComp = targetPawn.TryGetComp<AlienComp>();
             if (alienComp != null)
             {
-                originalSkinColor = alienComp.skinColor;
-                originalSkinColorTwo = alienComp.skinColorSecond;
+                originalSkinColor = alienComp.ColorChannels["skin"].first;
+                originalSkinColorTwo = alienComp.ColorChannels["skin"].second;
 
-                alienComp.skinColor = def.newSkinColor;
-                alienComp.skinColorSecond = def.newSkinColor;
+                alienComp.ColorChannels["skin"].first = def.newSkinColor;
+                alienComp.ColorChannels["skin"].second = def.newSkinColor;
 
                 if(customizationWindow != null)
                 {
@@ -70,8 +70,8 @@ namespace Androids
             AlienComp alienComp = customizationWindow.newAndroid.TryGetComp<AlienComp>();
             if (alienComp != null)
             {
-                alienComp.skinColor = originalSkinColor;
-                alienComp.skinColorSecond = originalSkinColorTwo;
+                alienComp.ColorChannels["skin"].first = originalSkinColor;
+                alienComp.ColorChannels["skin"].second = originalSkinColorTwo;
 
                 customizationWindow.refreshAndroidPortrait = true;
             }

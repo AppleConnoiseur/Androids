@@ -2,7 +2,7 @@ D:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Androids\Assemblies\
 D:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Androids\Source\ModAssembly\obj\Debug\Androids.csprojResolveAssemblyReference.cache
 D:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Androids\Source\ModAssembly\obj\Debug\Androids.dll
 D:\Programmering\C#\Rimworld\Androids\ModAssembly\obj\Debug\Androids.dll
-D:\Programmering\C#\Rimworld\Androids\ModAssembly\obj\Debug\Androids.csprojAssemblyReference.cache
 D:\Programmering\C#\Rimworld\Androids\ModAssembly\obj\Debug\Androids.csproj.CoreCompileInputs.cache
 D:\Programmering\C#\Rimworld\Androids\ModAssembly\obj\Debug\Androids.csproj.CopyComplete
 D:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Androids\1.1\Assemblies\Androids.dll
+D:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Androids\1.2\Assemblies\Androids.dll

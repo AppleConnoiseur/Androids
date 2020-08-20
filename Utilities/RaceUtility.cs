@@ -47,7 +47,9 @@ namespace Androids
                         }*/
                     }
 
-                    //Log.Message("AlienRaceKinds: Removing mechanical pawns.");
+                    //Remove Human from the list. (Not intended to be printed)
+                    alienRaceKindsint.RemoveAll(def => def.race.defName == "Human");
+
                     //Remove Droids from the list.
                     alienRaceKindsint.RemoveAll(def => def.race.HasModExtension<MechanicalPawnProperties>());
 

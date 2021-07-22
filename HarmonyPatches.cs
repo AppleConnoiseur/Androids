@@ -74,8 +74,12 @@ namespace Androids
                     //Patch: PawnRenderer.RenderPawnInternal as Postfix
                     harmony.Patch(type.GetMethod("RenderPawnInternal", BindingFlags.NonPublic | BindingFlags.Instance,
                         Type.DefaultBinder, CallingConventions.Any,
-                        new Type[] { typeof(Vector3), typeof(float), typeof(bool), typeof(Rot4), typeof(Rot4), typeof(RotDrawMode), typeof(bool), typeof(bool), typeof(bool) }, null),
+                        new Type[] { typeof(Vector3), typeof(float), typeof(bool), typeof(Rot4), typeof(RotDrawMode), typeof(PawnRenderFlags) }, null),
                         null, new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_PawnRenderer_RenderPawnInternal))));
+                    /*harmony.Patch(type.GetMethod("RenderPawnInternal", BindingFlags.NonPublic | BindingFlags.Instance,
+                        Type.DefaultBinder, CallingConventions.Any,
+                        new Type[] { typeof(Vector3), typeof(float), typeof(bool), typeof(Rot4), typeof(Rot4), typeof(RotDrawMode), typeof(bool), typeof(bool), typeof(bool) }, null),
+                        null, new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_PawnRenderer_RenderPawnInternal))));*/
                 }
 
                 lastPatch = "Need_Food.Starving";
@@ -254,17 +258,17 @@ namespace Androids
                         null);
                 }
 
-                lastPatch = "PawnUtility.HumanFilthChancePerCell";
+                /*lastPatch = "PawnUtility.HumanFilthChancePerCell";
                 {
                     //PawnUtility
                     Type type = typeof(PawnUtility);
 
-                    //Patch: Toils_Tend.FinalizeTend as Prefix
+                    //Patch: PawnUtility.HumanFilthChancePerCell as Prefix
                     harmony.Patch(
                         type.GetMethod("HumanFilthChancePerCell"),
                         new HarmonyMethod(typeof(HarmonyPatches).GetMethod(nameof(Patch_PawnUtility_HumanFilthChancePerCell))),
                         null);
-                }
+                }*/
 
                 lastPatch = "PawnGenerator.TryGenerateNewPawnInternal";
                 {
@@ -1194,9 +1198,10 @@ namespace Androids
         /// <summary>
         /// Adds glowing eyes to anything mechanical.
         /// </summary>
-        public static void Patch_PawnRenderer_RenderPawnInternal(ref PawnRenderer __instance, Vector3 rootLoc, float angle, bool renderBody, Rot4 bodyFacing, Rot4 headFacing, RotDrawMode bodyDrawType, bool portrait, bool headStump, bool invisible)
+        public static void Patch_PawnRenderer_RenderPawnInternal(ref PawnRenderer __instance, Vector3 rootLoc, float angle, bool renderBody, Rot4 bodyFacing, RotDrawMode bodyDrawType, PawnRenderFlags flags)
         {
-            if(invisible)
+            //typeof(Vector3), typeof(float), typeof(bool), typeof(Rot4), typeof(RotDrawMode), typeof(PawnRenderFlags)
+            if (flags.FlagSet(PawnRenderFlags.Invisible))
             {
                 return;
             }
@@ -1206,7 +1211,7 @@ namespace Androids
                 Pawn pawn = PawnRenderer_GetPawn_GetPawn(__instance);
 
                 //Draw glowing eyes.                                                                                Null check galore!
-                if (pawn != null && pawn.IsAndroid() && !pawn.Dead && !headStump &&  ((!portrait && pawn?.jobs?.curDriver != null ? !pawn.jobs.curDriver.asleep : portrait) || portrait))
+                if (pawn != null && pawn.IsAndroid() && !pawn.Dead && !flags.FlagSet(PawnRenderFlags.HeadStump) &&  ((!flags.FlagSet(PawnRenderFlags.Portrait) && pawn?.jobs?.curDriver != null ? !pawn.jobs.curDriver.asleep : flags.FlagSet(PawnRenderFlags.Portrait)) || flags.FlagSet(PawnRenderFlags.Portrait)))
                 {
                     Quaternion quat = Quaternion.AngleAxis(angle, Vector3.up);
 
@@ -1223,26 +1228,26 @@ namespace Androids
                         rootLoc.y += 0.0281250011f;
                     }
 
-                    Vector3 headOffset = quat * __instance.BaseHeadOffsetAt(headFacing);
+                    Vector3 headOffset = quat * __instance.BaseHeadOffsetAt(bodyFacing);
 
                     //Finalize offset.
                     Vector3 eyeOffset = baseHeadOffset + headOffset + new Vector3(0f, 0.01f, 0f);
 
                     //Render eyes.
-                    if (headFacing != Rot4.North)
+                    if (bodyFacing != Rot4.North)
                     {
                         //Is not the back.
-                        Mesh headMesh = MeshPool.humanlikeHeadSet.MeshAt(headFacing);
+                        Mesh headMesh = MeshPool.humanlikeHeadSet.MeshAt(bodyFacing);
 
-                        if (headFacing.IsHorizontal)
+                        if (bodyFacing.IsHorizontal)
                         {
                             //Side
-                            GenDraw.DrawMeshNowOrLater(headMesh, eyeOffset, quat, EffectTextures.GetEyeGraphic(false, pawn.story.hairColor.SaturationChanged(0.6f)).MatSingle, portrait);
+                            GenDraw.DrawMeshNowOrLater(headMesh, eyeOffset, quat, EffectTextures.GetEyeGraphic(false, pawn.story.hairColor.SaturationChanged(0.6f)).MatSingle, flags.FlagSet(PawnRenderFlags.Portrait));
                         }
                         else
                         {
                             //Front
-                            GenDraw.DrawMeshNowOrLater(headMesh, eyeOffset, quat, EffectTextures.GetEyeGraphic(true, pawn.story.hairColor.SaturationChanged(0.6f)).MatSingle, portrait);
+                            GenDraw.DrawMeshNowOrLater(headMesh, eyeOffset, quat, EffectTextures.GetEyeGraphic(true, pawn.story.hairColor.SaturationChanged(0.6f)).MatSingle, flags.FlagSet(PawnRenderFlags.Portrait));
                         }
                     }
                 }

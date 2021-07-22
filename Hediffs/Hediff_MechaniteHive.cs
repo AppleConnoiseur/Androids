@@ -23,7 +23,7 @@ namespace Androids
                     {
                         if (injury.Bleeding)
                         {
-                            injury.Tended(1f);
+                            injury.Tended(1f,1f);
                         }
                     }
                 }

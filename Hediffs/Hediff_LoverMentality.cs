@@ -59,7 +59,7 @@ namespace Androids
                         FloatMenuOption option = new FloatMenuOption(targetPawn.LabelCap, delegate()
                         {
                             SetNewLover(targetPawn);
-                            MoteMaker.ThrowMetaIcon(pawn.Position, pawn.Map, RimWorld.ThingDefOf.Mote_Heart);
+                            FleckMaker.ThrowMetaIcon(pawn.Position, pawn.Map, RimWorld.FleckDefOf.Heart);
                         });
 
                         options.Add(option);

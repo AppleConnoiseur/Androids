@@ -59,9 +59,9 @@ namespace Androids
                     lord.AddPawn(spawnPawn);
                 }
 
-                MoteMaker.ThrowSmoke(spawnPawn.Position.ToVector3(), Map, Rand.Range(0.5f, 1.5f));
-                MoteMaker.ThrowSmoke(spawnPawn.Position.ToVector3(), Map, Rand.Range(1.0f, 3.0f));
-                MoteMaker.ThrowAirPuffUp(spawnPawn.Position.ToVector3(), Map);
+                FleckMaker.ThrowSmoke(spawnPawn.Position.ToVector3(), Map, Rand.Range(0.5f, 1.5f));
+                FleckMaker.ThrowSmoke(spawnPawn.Position.ToVector3(), Map, Rand.Range(1.0f, 3.0f));
+                FleckMaker.ThrowAirPuffUp(spawnPawn.Position.ToVector3(), Map);
             }
         }
 

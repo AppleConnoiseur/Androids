@@ -290,7 +290,7 @@ namespace Androids
                     //Emit smoke
                     if (powerComp.PowerOn && Current.Game.tickManager.TicksGame % 300 == 0)
                     {
-                        MoteMaker.ThrowSmoke(Position.ToVector3(), Map, 1f);
+                        FleckMaker.ThrowSmoke(Position.ToVector3(), Map, 1f);
                     }
                 break;
 
@@ -298,7 +298,7 @@ namespace Androids
                     //Emit smoke
                     if (powerComp.PowerOn && Current.Game.tickManager.TicksGame % 100 == 0)
                     {
-                        MoteMaker.ThrowSmoke(Position.ToVector3(), Map, 1.33f);
+                        FleckMaker.ThrowSmoke(Position.ToVector3(), Map, 1.33f);
                     }
                     break;
             }

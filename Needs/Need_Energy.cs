@@ -43,7 +43,7 @@ namespace Androids
             CurLevel = MaxLevel;
         }
 
-        public override void DrawOnGUI(Rect rect, int maxThresholdMarkers = int.MaxValue, float customMargin = -1F, bool drawArrows = true, bool doTooltip = true)
+        public override void DrawOnGUI(Rect rect, int maxThresholdMarkers = int.MaxValue, float customMargin = -1F, bool drawArrows = true, bool doTooltip = true, Rect? rectForTooltip = null)
         {
             if (threshPercents == null)
             {

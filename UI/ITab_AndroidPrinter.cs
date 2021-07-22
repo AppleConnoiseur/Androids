@@ -16,7 +16,7 @@ namespace Androids
     {
         private const float TopAreaHeight = 35f;
 
-        private Vector2 scrollPosition = default(Vector2);
+        private ThingFilterUI.UIState state;
 
         private static readonly Vector2 WinSize = new Vector2(300f, 480f);
 
@@ -40,6 +40,8 @@ namespace Androids
         {
             size = WinSize;
             labelKey = "AndroidTab";
+            state = new ThingFilterUI.UIState();
+            state.scrollPosition = default(Vector2);
         }
 
         protected override void FillTab()
@@ -64,7 +66,7 @@ namespace Androids
                 parentFilter = selStoreSettingsParent.GetParentStoreSettings().filter;
             }
             Rect rect2 = new Rect(0f, 40f, position.width, position.height - 40f);
-            ThingFilterUI.DoThingFilterConfigWindow(rect2, ref this.scrollPosition, settings.filter, parentFilter, 8);
+            ThingFilterUI.DoThingFilterConfigWindow(rect2, state, settings.filter, parentFilter, 8);
             PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.StorageTab, KnowledgeAmount.FrameDisplayed);
             GUI.EndGroup();
         }

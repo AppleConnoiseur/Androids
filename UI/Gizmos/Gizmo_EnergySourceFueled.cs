@@ -32,7 +32,7 @@ namespace Androids
         }
 
         // Token: 0x0600267D RID: 9853 RVA: 0x0014A890 File Offset: 0x00148C90
-        public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
+        public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth, GizmoRenderParms parms)
         {
             Rect overRect = new Rect(topLeft.x, topLeft.y, this.GetWidth(maxWidth), 75f);
             Find.WindowStack.ImmediateWindow(984689, overRect, WindowLayer.GameUI, delegate

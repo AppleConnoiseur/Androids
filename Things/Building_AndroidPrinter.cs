@@ -374,7 +374,7 @@ namespace Androids
                             //Emit smoke
                             if (powerComp.PowerOn && Current.Game.tickManager.TicksGame % 300 == 0)
                             {
-                                MoteMaker.ThrowSmoke(Position.ToVector3(), Map, 1f);
+                                FleckMaker.ThrowSmoke(Position.ToVector3(), Map, 1f);
                             }
 
                             //If we aren't being filled, then start.
@@ -398,7 +398,7 @@ namespace Androids
                                 //Emit smoke
                                 if (Current.Game.tickManager.TicksGame % 100 == 0)
                                 {
-                                    MoteMaker.ThrowSmoke(Position.ToVector3(), Map, 1.33f);
+                                    FleckMaker.ThrowSmoke(Position.ToVector3(), Map, 1.33f);
                                 }
 
                                 //Visual effects
@@ -406,7 +406,7 @@ namespace Androids
                                 {
                                     for (int i = 0; i < 3; i++)
                                     {
-                                        MoteMaker.ThrowMicroSparks(Position.ToVector3() + new Vector3(Rand.Range(-1, 1), 0f, Rand.Range(-1, 1)), Map);
+                                        FleckMaker.ThrowMicroSparks(Position.ToVector3() + new Vector3(Rand.Range(-1, 1), 0f, Rand.Range(-1, 1)), Map);
                                     }
                                 }
 

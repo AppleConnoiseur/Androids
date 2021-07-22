@@ -121,7 +121,7 @@ namespace Androids
                     //Emit smoke
                     if (powerComp.PowerOn && Current.Game.tickManager.TicksGame % 300 == 0)
                     {
-                        MoteMaker.ThrowSmoke(Position.ToVector3(), Map, 1f);
+                        FleckMaker.ThrowSmoke(Position.ToVector3(), Map, 1f);
                     }
                     break;
 
@@ -130,10 +130,10 @@ namespace Androids
                     if (powerComp.PowerOn && Current.Game.tickManager.TicksGame % 100 == 0)
                     {
                         for(int i = 0; i < 5; i++)
-                            MoteMaker.ThrowMicroSparks(Position.ToVector3() + new Vector3(Rand.Range(-1, 1), 0f, Rand.Range(-1, 1)), Map);
+                            FleckMaker.ThrowMicroSparks(Position.ToVector3() + new Vector3(Rand.Range(-1, 1), 0f, Rand.Range(-1, 1)), Map);
                         for (int i = 0; i < 3; i++)
-                            MoteMaker.ThrowSmoke(Position.ToVector3() + new Vector3(Rand.Range(-1f, 1f), 0f, Rand.Range(-1f, 1f)), Map, Rand.Range(0.5f, 0.75f));
-                        MoteMaker.ThrowHeatGlow(Position, Map, 1f);
+                            FleckMaker.ThrowSmoke(Position.ToVector3() + new Vector3(Rand.Range(-1f, 1f), 0f, Rand.Range(-1f, 1f)), Map, Rand.Range(0.5f, 0.75f));
+                        FleckMaker.ThrowHeatGlow(Position, Map, 1f);
 
                         if (soundSustainer == null || soundSustainer.Ended)
                         {

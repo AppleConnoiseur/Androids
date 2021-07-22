@@ -77,7 +77,7 @@ namespace Androids
                 if(spawnProperties != null && spawnProperties.generateHair)
                 {
                     IEnumerable<HairDef> source = from hair in DefDatabase<HairDef>.AllDefs
-                                                  where hair.hairTags.SharesElementWith(spawnProperties.hairTags)
+                                                  where hair.styleTags.SharesElementWith(spawnProperties.hairTags)
                                                   select hair;
                     HairDef resultHair = source.RandomElementByWeightWithFallback((hair) => HairChoiceLikelihoodFor(hair, pawnBeingCrafted), DefDatabase<HairDef>.GetNamed("Shaved"));
 
@@ -226,33 +226,33 @@ namespace Androids
             {
                 if (pawn.gender == Gender.Male)
                 {
-                    switch (hair.hairGender)
+                    switch (hair.styleGender)
                     {
-                        case HairGender.Male:
+                        case StyleGender.Male:
                             return 70f;
-                        case HairGender.MaleUsually:
+                        case StyleGender.MaleUsually:
                             return 30f;
-                        case HairGender.Any:
+                        case StyleGender.Any:
                             return 60f;
-                        case HairGender.FemaleUsually:
+                        case StyleGender.FemaleUsually:
                             return 5f;
-                        case HairGender.Female:
+                        case StyleGender.Female:
                             return 1f;
                     }
                 }
                 if (pawn.gender == Gender.Female)
                 {
-                    switch (hair.hairGender)
+                    switch (hair.styleGender)
                     {
-                        case HairGender.Male:
+                        case StyleGender.Male:
                             return 1f;
-                        case HairGender.MaleUsually:
+                        case StyleGender.MaleUsually:
                             return 5f;
-                        case HairGender.Any:
+                        case StyleGender.Any:
                             return 60f;
-                        case HairGender.FemaleUsually:
+                        case StyleGender.FemaleUsually:
                             return 30f;
-                        case HairGender.Female:
+                        case StyleGender.Female:
                             return 70f;
                     }
                 }
@@ -262,7 +262,7 @@ namespace Androids
                     hair,
                     " with ",
                     pawn
-                }), false);
+                }));
                 result = 0f;
             }
             return result;
@@ -297,7 +297,7 @@ namespace Androids
             {
                 if (medicine != null && medicine.Destroyed)
                 {
-                    Log.Warning("Tried to use destroyed repair kit.", false);
+                    Log.Warning("Tried to use destroyed repair kit.");
                     medicine = null;
                 }
 
@@ -320,17 +320,20 @@ namespace Androids
                 {
                     patient.mindState.timesGuestTendedToByPlayer++;
                 }
+                /*
+                 * Removed, looks like the 1.3 TendUtility.DoTend does not use this,
                 if (doctor != null && doctor.IsColonistPlayerControlled)
                 {
                     patient.records.AccumulateStoryEvent(StoryEventDefOf.TendedByPlayer);
                 }
+                */
                 if (doctor != null && doctor.RaceProps.Humanlike && patient.RaceProps.Animal)
                 {
                     if (RelationsUtility.TryDevelopBondRelation(doctor, patient, 0.004f))
                     {
                         if (doctor.Faction != null && doctor.Faction != patient.Faction)
                         {
-                            InteractionWorker_RecruitAttempt.DoRecruit(doctor, patient, 1f, false);
+                            InteractionWorker_RecruitAttempt.DoRecruit(doctor, patient, false);
                         }
                     }
                 }
@@ -360,6 +363,23 @@ namespace Androids
                     {
                         medicine.Destroy(DestroyMode.Vanish);
                     }
+                }
+
+                //adding code from 1.3, for Ideology.
+                if (ModsConfig.IdeologyActive && doctor != null && doctor.Ideo != null)
+                {
+                    Precept_Role role = doctor.Ideo.GetRole(doctor);
+                    if (role != null && role.def.roleEffects != null)
+                    {
+                        foreach (RoleEffect roleEffect in role.def.roleEffects)
+                        {
+                            roleEffect.Notify_Tended(doctor, patient);
+                        }
+                    }
+                }
+                if (doctor != null && doctor.Faction == Faction.OfPlayer && doctor != patient)
+                {
+                    QuestUtility.SendQuestTargetSignals(patient.questTags, "PlayerTended", patient.Named("SUBJECT"));
                 }
             }
         }

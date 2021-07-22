@@ -35,19 +35,19 @@ namespace Androids
             //Fix Battle droid belts.
             ThingDef_AlienRace ChjBattleDroid = (ThingDef_AlienRace)ThingDef.Named("ChjBattleDroid");
             {
-                List<string> whitelist = ChjBattleDroid.alienRace.raceRestriction.whiteApparelList;
+                List<ThingDef> whitelist = ChjBattleDroid.alienRace.raceRestriction.whiteApparelList;
                 foreach(ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
                 {
                     if(thingDef.IsApparel && 
                         (thingDef.apparel.bodyPartGroups != null && thingDef.apparel.bodyPartGroups.Count == 1 && thingDef.apparel.bodyPartGroups.First().defName == "Waist") &&
                         (thingDef.apparel.layers != null && thingDef.apparel.layers.Count == 1 && thingDef.apparel.layers.First().defName == "Belt") &&
-                        !whitelist.Any(item => item == thingDef.defName))
+                        !whitelist.Any(item => item.defName == thingDef.defName))
                     {
                         if(Prefs.LogVerbose)
                         {
                             Log.Message("Androids: Belt found and added: " + thingDef.defName);
                         }
-                        whitelist.Add(thingDef.defName);
+                        whitelist.Add(thingDef);
                     }
                 }
             }

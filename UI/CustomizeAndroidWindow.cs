@@ -229,7 +229,7 @@ namespace Androids
             {
                 //Pawn
                 Rect pawnRenderRect = new Rect(pawnRect.xMin + (pawnRect.width - PawnPortraitSize.x) / 2f - 10f, pawnRect.yMin + 20f, PawnPortraitSize.x, PawnPortraitSize.y);
-                GUI.DrawTexture(pawnRenderRect, PortraitsCache.Get(newAndroid, PawnPortraitSize, default(Vector3), 1f));
+                GUI.DrawTexture(pawnRenderRect, PortraitsCache.Get(newAndroid, PawnPortraitSize, Rot4.South, default(Vector3), 1f));
 
                 Widgets.InfoCardButton(pawnRenderRect.xMax - 16f, pawnRenderRect.y, newAndroid);
 
@@ -337,7 +337,7 @@ namespace Androids
 
                         IEnumerable<HairDef> hairs = 
                             from hairdef in DefDatabase<HairDef>.AllDefs
-                            where (newAndroid.gender == Gender.Female && (hairdef.hairGender == HairGender.Any || hairdef.hairGender == HairGender.Female || hairdef.hairGender == HairGender.FemaleUsually)) || (newAndroid.gender == Gender.Male && (hairdef.hairGender == HairGender.Any || hairdef.hairGender == HairGender.Male || hairdef.hairGender == HairGender.MaleUsually))
+                            where (newAndroid.gender == Gender.Female && (hairdef.styleGender == StyleGender.Any || hairdef.styleGender == StyleGender.Female || hairdef.styleGender == StyleGender.FemaleUsually)) || (newAndroid.gender == Gender.Male && (hairdef.styleGender == StyleGender.Any || hairdef.styleGender == StyleGender.Male || hairdef.styleGender == StyleGender.MaleUsually))
                             select hairdef;
 
                         if(hairs != null)
@@ -866,13 +866,13 @@ namespace Androids
             //AlienComp alienComp = newAndroid.TryGetComp<AlienComp>();
             if(newAndroid.def is ThingDef_AlienRace alienRaceDef)
             {
-                List<string> disallowedTraits = alienRaceDef?.alienRace?.generalSettings?.disallowedTraits?.Select(trait => trait.defName).ToList();
+                List<RimWorld.TraitDef> disallowedTraits = alienRaceDef?.alienRace?.generalSettings?.disallowedTraits?.Select(trait => trait.defName).ToList();
 
                 if (disallowedTraits != null)
                 {
-                    foreach (string traitDefName in disallowedTraits)
+                    foreach (RimWorld.TraitDef trait in disallowedTraits)
                     {
-                        allTraits.RemoveAll(trait => trait.def.defName == traitDefName);
+                        allTraits.RemoveAll(thisTrait => trait.defName == thisTrait.def.defName);
                     }
                 }
             }

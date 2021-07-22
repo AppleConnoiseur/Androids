@@ -513,7 +513,7 @@ namespace Androids
                 int num2 = 0;
                 foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
                 {
-                    if (GatheringsUtility.ShouldPawnKeepGathering(pawn, gatheringDef) && (gatherSpot == null || !gatherSpot.Value.IsForbidden(pawn)) && (gatherSpot == null || pawn.CanReach(gatherSpot.Value, PathEndMode.Touch, Danger.Some, false, TraverseMode.ByPawn)))
+                    if (GatheringsUtility.ShouldPawnKeepGathering(pawn, gatheringDef) && (gatherSpot == null || !gatherSpot.Value.IsForbidden(pawn)) && (gatherSpot == null || pawn.CanReach(gatherSpot.Value, PathEndMode.Touch, Danger.Some, false, false, TraverseMode.ByPawn)))
                     {
                         num2++;
                     }

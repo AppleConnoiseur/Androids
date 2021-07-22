@@ -40,6 +40,7 @@ namespace Androids
         {
             size = WinSize;
             labelKey = "AndroidTab";
+            state = new ThingFilterUI.UIState();
             state.scrollPosition = default(Vector2);
         }
 

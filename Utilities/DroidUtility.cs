@@ -93,7 +93,10 @@ namespace Androids
                     pawnBeingCrafted.story.hairColor = new UnityEngine.Color(1f, 1f, 1f, 1f);
                     pawnBeingCrafted.story.hairDef = DefDatabase<HairDef>.GetNamed("Shaved");
                 }
-                
+
+                pawnBeingCrafted.style.beardDef = BeardDefOf.NoBeard;
+                pawnBeingCrafted.style.BodyTattoo = TattooDefOf.NoTattoo_Body;
+                pawnBeingCrafted.style.FaceTattoo = TattooDefOf.NoTattoo_Face;
 
                 if (spawnProperties != null && spawnProperties.bodyType != null)
                 {

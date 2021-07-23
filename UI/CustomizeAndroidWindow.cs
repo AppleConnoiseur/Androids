@@ -412,6 +412,7 @@ namespace Androids
                         {
                             if (Widgets.ButtonText(rowRect, "AndroidCustomizationRollFemale".Translate()))
                             {
+                                newAndroid.SetFactionDirect(null);
                                 newAndroid.Destroy();
                                 newAndroid = GetNewPawn(Gender.Female);
                                 RefreshUpgrades();
@@ -424,6 +425,7 @@ namespace Androids
 
                     if (Widgets.ButtonText(rowRect, "AndroidCustomizationRollMale".Translate()))
                     {
+                        newAndroid.SetFactionDirect(null);
                         newAndroid.Destroy();
                         newAndroid = GetNewPawn(Gender.Male);
                         RefreshUpgrades();
